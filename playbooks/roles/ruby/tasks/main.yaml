@@ -1,0 +1,67 @@
+# ruby tasks 
+# required for installing and runnign the rails application on the deployment environment
+#   
+- name: get rbenv from github
+  git: 
+    repo: https://github.com/rbenv/rbenv.git
+    dest: /home/deploy/.rbenv
+  
+- name: add PATH variable to bashrc
+  lineinfile: 
+    path: /home/deploy/.bashrc
+    line: 'export PATH="$HOME/.rbenv/bin:$PATH"'
+    regexp: ".rbenv/bin"
+
+- name: add eval to bashrc
+  lineinfile: 
+    path: /home/deploy/.bashrc
+    line: 'eval "$(rbenv init -)"'
+    regexp: "rbenv init -"
+
+- name: get rbenv build from github
+  git: 
+    repo: https://github.com/rbenv/ruby-build.git
+    dest: /home/deploy/.rbenv/plugins/ruby-build
+  
+- name: add ruby-build PATH variable to bashrc
+  lineinfile: 
+    path: /home/deploy/.bashrc
+    line: 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"'
+    regexp: "ruby-build"
+
+- name: get rbenv vars from github
+  git: 
+    repo: https://github.com/rbenv/rbenv-vars.git
+    dest: /home/deploy/.rbenv/plugins/ruby-vars
+
+- name: Recursively change ownership of /home/deploy/.rbenv
+  file:
+    path: /home/deploy/.rbenv
+    state: directory
+    recurse: yes
+    owner: deploy
+    group: deploy
+
+# copy config file to sites enabled
+# !!! temporary this file must be manually edited to add cookie signing key
+# !!! do not leave as it is on deploy server
+- name: copy vars file
+  copy:
+    src: vars.txt
+    dest: /home/deploy/.rbenv-vars
+    
+#############################################
+# The following tasks are not running so need to run from shell directly
+# 
+############################################# 
+# install the required version of ruby
+#- name: install ruby 2.6.1
+#  command: rbenv install 2.6.1
+#  command: rbenv global 2.6.1
+
+# install/update bundler to latest version
+# not working yet
+#    - name: install bundler gem
+#      gem:
+#        name: bundler
+#        state: latest

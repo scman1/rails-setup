@@ -1,0 +1,45 @@
+#basic tasks required for preparing the deployment environment
+#  1. add deploy user
+#  2. add package dependencies
+- name: Add deploy user
+  user: 
+        name: deploy
+        password: "{{ 'goodpassword' | password_hash('sha512') }}"
+        groups:
+          - sudo
+        state: present
+        shell: /bin/bash
+        system: no
+        create_home: yes
+        home: /home/deploy
+
+- name: install dependencies for rails app 
+  apt: 
+    name: '{{packages}}'
+    state: present
+  vars: 
+    packages:
+    
+      - git-core 
+      - curl 
+      - zlib1g-dev
+      - build-essential
+      - libssl-dev
+      - libreadline-dev
+      - libyaml-dev
+      - libsqlite3-dev
+      - sqlite3
+      - libxml2-dev
+      - libxslt1-dev
+      - libcurl4-openssl-dev
+      - software-properties-common
+      - libffi-dev
+      - dirmngr
+      - gnupg
+      - apt-transport-https
+      - ca-certificates
+      - redis-server
+      - redis-tools
+      - nodejs
+      - yarn
+      

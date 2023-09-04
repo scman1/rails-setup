@@ -1,0 +1,48 @@
+# nginx tasks
+# required for installing the nginx server and passenger for hosting the rails app
+- name: add key for passenger
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 561F9B9CAC40B2F7
+    state: present
+
+  #echo deb https://oss-binaries.phusionpassenger.com/apt/passenger $(lsb_release -cs) main > /etc/apt/sources.list.d/passenger.list'
+  #  repo: deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main
+
+- name: add passenger repository
+  apt_repository:
+    repo: deb https://oss-binaries.phusionpassenger.com/apt/passenger focal main
+    state: present
+
+- name: install passenger libraries for nginx
+  apt: 
+    name: ['nginx-extras', 'libnginx-mod-http-passenger']
+    state: present
+
+# configure passenger
+# replace the line that points to the default ruby
+# point to the ruby installed using snap
+- name: replace default ruby in passenger ini
+  lineinfile:
+    path: /etc/nginx/conf.d/mod-http-passenger.conf
+    regexp: 'passenger_ruby'
+    line: passenger_ruby /home/deploy/.rbenv/shims/ruby;
+    
+
+# remove default landing site
+- name: remove nginx default site
+  file: 
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+# copy config file to sites enabled
+# !!! edit to set according to the deployment server
+- name: copy app configuration file
+  copy:
+    src: ukchapp
+    dest: /etc/nginx/sites-enabled/ukchapp
+# restart nginx service after configuring passenger
+- name: restart nginx service
+  service:
+    name: nginx
+    state: restarted

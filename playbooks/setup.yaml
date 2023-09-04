@@ -1,0 +1,7 @@
+# run first, to add user and basic software for deploying rails app
+---
+- hosts: staginghost
+  become: true
+  roles:
+    - basic  # create user and install package dependencies
+    - ruby   # install rbenv and ruby for the rails app
