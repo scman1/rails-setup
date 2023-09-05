@@ -1,10 +1,10 @@
 
-# Ansible configuration for DSViewer rails app
+# Ansible configuration for CDI rails app
 
 
 ## Requirements
 
-These playbooks are tested on Ubuntu 18.04 LTS. There may likely to be issues using different versions of Ubuntu or other distributions.
+These playbooks are tested on Ubuntu 20.04.6 LTS (Focal Fossa). There may likely to be issues using different versions of Ubuntu or other distributions.
 
 There are definitely problems awaiting users of non-APT distributions - all the plays using `&apt` will need an equivalent for these other distributions.
 
@@ -14,17 +14,14 @@ Setup password-less access to your hosts.  You should also have password-less ac
 
 Typically, this requires the command:
 ```
-$ ssh-add <ssh-key>
+$ sh-copy-id -i ~/.ssh/id_rsa.pub [-p port] user@server ip
+
 ```
 
 ## Setup
 
-From the directory containing this README, run the command:
-```
-$ source setup.sh
-```
-This will install Ansible if required, and create additional files, such as a
-hosts file.
+Install ansible in your system
+
 
 ## Update the host inventory
 
@@ -45,7 +42,7 @@ Execute setup.yaml to get the basic configuration (required software and deploy 
 ```
 $ ansible-playbook -K playbooks/setup.yaml
 ```
-Then, login to the server and run manually the rbenv to install ruby 2.6.1 and install bundler.
+Then, login to the server and run manually the rbenv to install ruby 2.7.0 and install bundler.
 
 Afterwards, execute server.yaml to setup the web server, run:
 ```
@@ -55,12 +52,10 @@ To finish get the source code of the app from git, add capistrano and run capist
 
 ## Funding
 
-This code was created to deploy the dsviewer demonstrator onto a Virtual Machine, as part of the ICEDIG project
-https://icedig.eu/ 
-ICEDIG a DiSSCo Project
-H2020-INFRADEV-2016-2017 – Grant Agreement No. 777483
-Funded by the Horizon 2020 Framework Programme of the European Union
+UK Catalysis Hub supports the development of this resource and it is funded by EPSRC grants: EP/R026939/1, EP/R026815/1, EP/R026645/1, EP/R027129/1, and EP/M013219/1(biocatalysis))
+
 
 ## References
 
-The deployment steps are based on the deployment guide at: https://gorails.com/deploy/ubuntu/18.04#vps and from the ansible book for deploying the BioVeL portal https://github.com/BioVeL/ansible-playbooks
+The deployment steps are based on the deployment guide at: https://gorails.com/deploy/ubuntu/18.04#vps, from the ansible book for deploying the BioVeL portal https://github.com/BioVeL/ansible-playbooks, and [dsviewer ansible](https://github.com/scman1/ansible-dsviewer).
+
