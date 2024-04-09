@@ -43,7 +43,7 @@
       
 - name: Installing Nodejs
   get_url:
-    url: "https://deb.nodesource.com/setup_12.x"
+    url: "https://deb.nodesource.com/setup_20.x"
     dest: ~/nodejs
     mode: 0755
 
