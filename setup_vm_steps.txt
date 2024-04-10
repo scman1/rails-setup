@@ -12,22 +12,24 @@ $ ps -A | grep sshd
 
 2. create a key pair using:
 
-ssh-keygen -t rsa -b 4096 -C "abraham@192.168.0.55"
+ssh-keygen -t rsa -b 4096 -C "user@192.168.0.55"
 
 3. Use ssh-copy-id to install SSH key on servers as authorized keys for passwordless 
 authentication.
 
 ssh-copy-id -i [id_file] [-p port] [user@]machine
 
-ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2222 abraham@192.168.0.55 
+ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2222 user@192.168.0.55 
 
 4. test loging in to the server:
 
-ssh -p 2222 abraham@192.168.0.55 
+ssh -p 2222 user@192.168.0.55 
 
 It should login without needing to enter password
 
-Edit SSH config file to create a host alias to connect (~/.ssh/config). 
+5. Edit SSH config file to create a host alias to connect (~/.ssh/config). 
+
+sudo nano ~/.ssh/config
 
 The entry should look something like:
 
