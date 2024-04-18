@@ -1,6 +1,6 @@
 # run after setup, with rbenv and ruby installed
 ---
-- hosts: staginghost
+- hosts: prodhost
   become: true
   roles:
     - nginx # install and setup nginx and passenger for deploying app
