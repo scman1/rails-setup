@@ -36,7 +36,7 @@ The entry should look something like:
 Host deployvm
     HostName 192.168.0.55
     Port 2222
-    User abraham
+    User user
     IdentityFile ~/.ssh/id_rsa
     IdentitiesOnly yes
 

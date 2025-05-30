@@ -1,5 +1,5 @@
 ---
-sysadmin_email: support@biovel.eu
+sysadmin_email: support@cdi.ukcatalysishub.org
 
 ntp_hosts:
   - uk.pool.ntp.org

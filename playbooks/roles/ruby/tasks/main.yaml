@@ -1,6 +1,7 @@
 # ruby tasks 
 # required for installing and runnign the rails application on the deployment environment
 #   
+
 - name: get rbenv from github
   git: 
     repo: https://github.com/rbenv/rbenv.git
@@ -49,19 +50,37 @@
   copy:
     src: vars.txt
     dest: /home/deploy/.rbenv-vars
-    
+
+##just to debug become issues
+#- name: Debug Ansible user
+#  command: whoami
+#  register: current_user
+#  become: true
+#  become_user: deploy
+
+#- debug:
+#    msg: "Ansible is running as: {{ current_user.stdout }}"
+
+
 #############################################
-# The following tasks are not running so need to run from shell directly
-# 
+# Become needs acl installed.
+# and rbenv needs the full path 
 ############################################# 
 # install the required version of ruby
-#- name: install ruby 2.6.1
-#  command: rbenv install 2.6.1
-#  command: rbenv global 2.6.1
+- name: install ruby 3.2.2
+  command: /home/deploy/.rbenv/bin/rbenv install 3.2.2 #rbenv needs the full path does not get the user local
+  become: true
+  become_user: deploy
+
+# enable ruby 3.2.2 as global
+- name: set ruby 3.2.2 as the global ruby
+  command: /home/deploy/.rbenv/bin/rbenv global 3.2.2
+  become: true
+  become_user: deploy
 
 # install/update bundler to latest version
 # not working yet
-#    - name: install bundler gem
-#      gem:
-#        name: bundler
-#        state: latest
+#- name: install bundler gem
+#  gem:
+#    name: bundler
+#    state: latest

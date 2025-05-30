@@ -1,10 +1,16 @@
 #basic tasks required for preparing the deployment environment
 #  1. add deploy user
 #  2. add package dependencies
+
+- name: Ask for the new user password
+  pause:
+    prompt: "Enter the password for the new user:"
+  register: user_password
+
 - name: Add deploy user
   user: 
         name: deploy
-        password: "{{ 'goodpassword' | password_hash('sha512') }}"
+        password: "{{ user_password.user_input | password_hash('sha512') }}"
         groups:
           - sudo
         state: present
@@ -40,10 +46,16 @@
       - ca-certificates
       - redis-server
       - redis-tools
-      
+      - acl #needed for running become on ubuntu 20
+
+# nodejs 20 gives trouble for missing python2
+# also gives warning of chart.js the engine pnpm appears to be invalid
+# deployment fails
+# need to revise packages required form node 20 and ruby 3.2
+# try 18 for the moment and see how it works
 - name: Installing Nodejs
   get_url:
-    url: "https://deb.nodesource.com/setup_20.x"
+    url: "https://deb.nodesource.com/setup_18.x"
     dest: ~/nodejs
     mode: 0755
 

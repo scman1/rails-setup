@@ -1,6 +1,6 @@
 # run first, to add user and basic software for deploying rails app
 ---
-- hosts: prodhost
+- hosts: deployvmlocal
   become: true
   roles:
     - basic  # create user and install package dependencies
