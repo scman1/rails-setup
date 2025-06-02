@@ -4,7 +4,7 @@
 
 - name: Ask for the new user password
   pause:
-    prompt: "Enter the password for the new user:"
+    prompt: "Enter the password for the new user"
   register: user_password
 
 - name: Add deploy user

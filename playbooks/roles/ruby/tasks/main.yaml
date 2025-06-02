@@ -2,6 +2,13 @@
 # required for installing and runnign the rails application on the deployment environment
 #   
 
+- name: Allow dubious Git repository ownership
+  command: git config --global --add safe.directory /home/deploy/.rbenv
+  command: git config --global --add safe.directory /home/deploy/.rbenv/plugins/ruby-build
+  command: git config --global --add safe.directory /home/deploy/.rbenv/plugins/ruby-vars
+  #become: true
+  #become_user: deploy
+
 - name: get rbenv from github
   git: 
     repo: https://github.com/rbenv/rbenv.git
@@ -57,10 +64,9 @@
 #  register: current_user
 #  become: true
 #  become_user: deploy
-
+  
 #- debug:
 #    msg: "Ansible is running as: {{ current_user.stdout }}"
-
 
 #############################################
 # Become needs acl installed.
