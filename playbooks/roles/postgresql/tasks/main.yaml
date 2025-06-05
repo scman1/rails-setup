@@ -1,0 +1,29 @@
+# only for production 
+- name: Install PostgreSQL
+  apt:
+    name: postgresql
+    state: present
+    update_cache: yes
+
+- name: Ensure PostgreSQL is running
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Create Rails database user
+  become_user: postgres
+  postgresql_user:
+    name: myappuser
+    password: "securepassword"
+    encrypted: yes
+    role_attr_flags: "CREATEDB"
+
+- name: Create Rails application database
+  become_user: postgres
+  postgresql_db:
+    name: myapp_production
+    owner: myappuser
+    encoding: "UTF8"
+    state: present
+
