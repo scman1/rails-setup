@@ -6,6 +6,7 @@ server {
   root /home/deploy/ukchapp/current/public;
 
   passenger_enabled on;
+  #needs to match cap deploy?
   passenger_app_env production;
 
   location /cable {

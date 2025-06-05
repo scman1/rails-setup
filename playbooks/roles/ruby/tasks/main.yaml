@@ -6,8 +6,8 @@
   command: git config --global --add safe.directory /home/deploy/.rbenv
   command: git config --global --add safe.directory /home/deploy/.rbenv/plugins/ruby-build
   command: git config --global --add safe.directory /home/deploy/.rbenv/plugins/ruby-vars
-  #become: true
-  #become_user: deploy
+  become: true
+  become_user: deploy
 
 - name: get rbenv from github
   git: 

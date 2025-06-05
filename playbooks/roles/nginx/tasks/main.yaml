@@ -2,8 +2,10 @@
 # required for installing the nginx server and passenger for hosting the rails app
 - name: add key for passenger
   apt_key:
-    keyserver: keyserver.ubuntu.com
-    id: 561F9B9CAC40B2F7
+    #keyserver: keyserver.ubuntu.com
+    url: http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x561f9b9cac40b2f7
+    #keyserver: keys.openpgp.org
+    #id: 561F9B9CAC40B2F7
     state: present
 
   #echo deb https://oss-binaries.phusionpassenger.com/apt/passenger $(lsb_release -cs) main > /etc/apt/sources.list.d/passenger.list'

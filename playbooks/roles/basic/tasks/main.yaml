@@ -48,14 +48,10 @@
       - redis-tools
       - acl #needed for running become on ubuntu 20
 
-# nodejs 20 gives trouble for missing python2
-# also gives warning of chart.js the engine pnpm appears to be invalid
-# deployment fails
-# need to revise packages required form node 20 and ruby 3.2
-# try 18 for the moment and see how it works
+# nodejs 20 OK in latest
 - name: Installing Nodejs
   get_url:
-    url: "https://deb.nodesource.com/setup_18.x"
+    url: "https://deb.nodesource.com/setup_20.x"
     dest: ~/nodejs
     mode: 0755
 
