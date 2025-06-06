@@ -1,0 +1,27 @@
+- name: Create SSL Certificate Directory
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: "0755"
+
+- name: Generate Self-Signed SSL Certificate
+  command: >
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048
+    -keyout /etc/nginx/ssl/selfsigned.key
+    -out /etc/nginx/ssl/selfsigned.crt
+    -subj "/C=US/ST=State/L=City/O=Company/OU=IT/CN=localhost"
+
+# copy config file to sites enabled
+# !!! edit to set according to the deployment server
+- name: copy app configuration file
+  copy:
+    src: tportal
+    dest: /etc/nginx/sites-enabled/ukchapp
+
+# restart nginx service after configuring passenger
+- name: restart nginx service
+  service:
+    name: nginx
+    state: restarted
+
+

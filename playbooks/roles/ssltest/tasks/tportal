@@ -1,0 +1,44 @@
+server {
+    listen 443 ssl;
+    server_name _;
+   
+    # location of certificate
+    ssl_certificate /etc/nginx/ssl/selfsigned.crt;
+    ssl_certificate_key /etc/nginx/ssl/selfsigned.key;
+
+    # SSL protocols and ciphers
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+    
+    # SSL settings
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:SSL:50m;
+    
+    # path to app public directory
+    root /home/deploy/ukchapp/current/public;
+    
+    passenger_enabled on;
+    passenger_app_env staging;
+    
+    # rails configuration
+    location /cable {
+        passenger_app_group_name ukchapp_web_socket;
+        passenger_force_max_concurrent_requests_per_process 0;
+    }
+    # allow uploads 100MB
+    client_max_body_size 100m;
+    
+    location ~ ^/(assets|packs){
+      expires max;
+      gzip_static on;
+    }
+}
+
+server {
+  listen 80;
+  listen [::]:80;
+  
+  server_name _;
+  
+  return 301 https://$host$request_uri;
+}

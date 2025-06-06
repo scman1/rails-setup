@@ -41,8 +41,9 @@
 # !!! edit to set according to the deployment server
 - name: copy app configuration file
   copy:
-    src: ukchapp
+    src: tportal
     dest: /etc/nginx/sites-enabled/ukchapp
+
 # restart nginx service after configuring passenger
 - name: restart nginx service
   service:
