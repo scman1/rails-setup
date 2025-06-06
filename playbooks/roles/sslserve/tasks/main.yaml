@@ -1,0 +1,41 @@
+# Configure NGINX with HTTPS (Let's Encrypt)
+- name: Install NGINX Certbot
+  apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+    update_cache: yes
+
+- name: Ensure NGINX is running
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Obtain Let's Encrypt SSL certificate
+  command: >
+    certbot --nginx -n --agree-tos --email admin@yourdomain.com
+    -d yourdomain.com -d www.yourdomain.com
+
+- name: Set up auto-renewal for SSL certificates
+  cron:
+    name: "Certbot Auto-Renewal"
+    job: "/usr/bin/certbot renew --quiet"
+    state: present
+    special_time: weekly
+
+# copy config file to sites enabled
+# !!! edit to set according to the deployment server
+- name: copy app configuration file
+  copy:
+    src: sslportal
+    dest: /etc/nginx/sites-enabled/ukchapp
+
+# restart nginx service after configuring passenger
+- name: restart nginx service
+  service:
+    name: nginx
+    state: restarted
+
+
