@@ -102,3 +102,11 @@
     name: redis
     enabled: yes
     state: started
+
+- name: Allow deploy user to run specific commands without password
+  lineinfile:
+    path: /etc/sudoers.d/deploy_tee
+    line: "deploy ALL=(ALL) NOPASSWD: /usr/bin/tee /etc/systemd/system/*.service, /bin/systemctl"
+    create: yes
+    validate: "visudo -cf %s"
+  become: true

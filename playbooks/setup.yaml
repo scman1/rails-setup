@@ -3,7 +3,9 @@
 - hosts: deployvmlocal
   become: true
   roles:
-    - basic  # create user and install package dependencies
-    - ruby   # install rbenv and ruby for the rails app
-    - nginx # install and setup nginx and passenger for deploying app
-    # postgresql # only run for setting up in production
+    - basic   # create user and install package dependencies
+    - ruby    # install rbenv and ruby for the rails app
+    - nginx   # install and setup nginx and passenger for deploying app
+    - ssltest # enable and test SSL using self signed certificates
+    # - sslserve # enable SSL using certbot to handle certificates ***PRODUCTION***
+    # - postgresql # only run for setting up in ***PRODUCTION***
