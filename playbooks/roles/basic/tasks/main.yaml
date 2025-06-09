@@ -48,6 +48,8 @@
       - redis-tools
       - acl #needed for running become on ubuntu 20
 
+
+
 # nodejs 20 OK in latest
 - name: Installing Nodejs
   get_url:
@@ -76,3 +78,27 @@
       - nodejs
       - yarn
     update_cache: true
+
+# install latest redis for sidekiq
+# the default for ubuntu 20 is redis
+# 5 and sidekiq asks for redis 6+
+
+- name: Add Redis PPA
+  ansible.builtin.apt_repository:
+    repo: "ppa:redislabs/redis"
+    state: present
+
+- name: Update package lists
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install Redis
+  ansible.builtin.apt:
+    name: redis-server
+    state: latest
+
+- name: Enable and start Redis service
+  ansible.builtin.systemd:
+    name: redis
+    enabled: yes
+    state: started
