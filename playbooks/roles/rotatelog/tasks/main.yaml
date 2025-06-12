@@ -1,0 +1,14 @@
+- name: Configure logrotate for Rails logs in shared folder
+  ansible.builtin.template:
+    src: logrotate_rails.j2
+    dest: /etc/logrotate.d/rails_app
+    mode: '0644'
+    force: yes
+    
+- name: Ensure logrotate runs daily
+  ansible.builtin.cron:
+    name: "logrotate"
+    job: "/usr/sbin/logrotate /etc/logrotate.conf"
+    state: present
+    minute: 0
+    hour: 0

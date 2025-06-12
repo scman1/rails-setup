@@ -1,7 +1,0 @@
-# run after setup, with rbenv and ruby installed
----
-- hosts: deployvmlocal
-  become: true
-  roles:
-    - ssltest  # enable ssl on staging
-    #- sslserve # enable ssl on nginx for production
